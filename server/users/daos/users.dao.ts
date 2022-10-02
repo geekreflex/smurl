@@ -5,7 +5,7 @@ import debug from 'debug';
 import mongooseService from '../../common/services/mongoose.service';
 import shortid from 'shortid';
 
-const log: debug.IDebugger = debug('app:in-memory-dao');
+const log: debug.IDebugger = debug('app:mongodb-dao');
 
 class UsersDao {
   users: Array<CreateUserDto> = [];
@@ -68,6 +68,12 @@ class UsersDao {
 
   async removeUserById(userId: string) {
     return this.User.deleteOne({ _id: userId }).exec();
+  }
+
+  async getUserByEmailWithPassword(email: string) {
+    return this.User.findOne({ email: email })
+      .select('_id email permissionFlags +password')
+      .exec();
   }
 }
 
