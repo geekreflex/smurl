@@ -12,6 +12,9 @@ node_modules
 /build
 dist
 
+# container
+data
+
 # misc
 .env
 .DS_Store
