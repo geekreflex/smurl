@@ -11,8 +11,13 @@ import * as expressWinston from 'express-winston';
 import cors from 'cors';
 import debug from 'debug';
 import * as http from 'http';
+import { UrlRoutes } from './modules/url/urls.routes.config';
 
 class Server {
+  /**
+   * Routes
+   */
+
   private app: Application;
   private server: http.Server;
   private routes: Array<CommonRoutesConfig> = [];
@@ -54,6 +59,7 @@ class Server {
     this.app.get('/', (req: express.Request, res: express.Response) => {
       res.status(200).send('Running');
     });
+    this.routes.push(new UrlRoutes(this.app));
   }
 
   public start() {
@@ -61,6 +67,7 @@ class Server {
       this.routes.forEach((route: CommonRoutesConfig) => {
         this.debugLog(`Routes configured for ${route.getName()}`);
       });
+      console.log(`Server running at http://localhost:${this.port}`);
     });
   }
 }
